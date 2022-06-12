@@ -1,0 +1,44 @@
+class Solution {
+    public int Roman(char ch)
+    {
+        switch(ch)
+        {
+            case 'I' : return 1;
+            case 'V' : return 5;
+            case 'X' : return 10;
+            case 'L' : return 50;
+            case 'C' : return 100;
+            case 'D' : return 500;
+            case 'M' : return 1000;
+            default  : return 0;
+        }
+    }
+    public int romanToInt(String s) {
+        int result = 0;
+        if(s.length() == 1)
+        {
+            result += Roman(s.charAt(s.length()-1));
+        }
+        else
+        {
+            for(int i=0 ; i<s.length()-1; i++)
+            {
+                if(Roman(s.charAt(i)) >= Roman(s.charAt(i+1)))
+                {
+                    result += Roman(s.charAt(i));
+                }
+                else
+                {
+                    result += Roman(s.charAt(i+1)) - Roman(s.charAt(i));
+                    i++;
+                }
+            }
+            int j = s.length()-1;
+            if(Roman(s.charAt(j)) <= Roman(s.charAt(j-1)))
+            {
+                result += Roman(s.charAt(j));
+            }
+        }
+        return result;
+    }
+}
