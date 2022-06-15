@@ -1,0 +1,34 @@
+class Solution {
+    static void sortMat(int arr[][], int col) {
+        Arrays.sort(arr, new Comparator<int[]>() {
+            @Override
+            public int compare(final int[] row1, final int[] row2) {
+                if (row1[col] >= row2[col])
+                    return 1;
+                else
+                    return -1;
+            }
+        });
+    }
+    public int[] kWeakestRows(int[][] mat, int k) {
+        int[][] index = new int[mat.length][2];
+        int count = 0;
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[i].length; j++) {
+                if (mat[i][j] == 1)
+                    count++;
+                else
+                    break;
+            }
+            index[i][0] = i;
+            index[i][1] = count;
+            count = 0;
+        }
+        sortMat(index, 1);
+        int res[] = new int[k];
+        for(int i = 0; i < k; i++) {
+            res[i] = index[i][0];
+        }
+        return res;
+    }
+}
