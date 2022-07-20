@@ -1,0 +1,64 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    private ListNode reverse(ListNode currentNode, ListNode prevNode)
+    {
+        if(currentNode == null)
+        {
+            return prevNode;
+        }
+        ListNode ahead = currentNode.next;
+        currentNode.next = prevNode;
+        return reverse(ahead, currentNode);
+    }
+    private boolean compare(ListNode firstHalf, ListNode secondHalf)
+    {
+        while(firstHalf!=null && secondHalf!=null)
+        {
+            if(firstHalf.val == secondHalf.val)
+            {
+                firstHalf = firstHalf.next;
+                secondHalf = secondHalf.next;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isPalindrome(ListNode head) {
+        ListNode midNode, prevNode, slow, fast;
+        slow = fast = prevNode = midNode = head;
+        while(fast!=null && fast.next!=null)
+        {
+            fast = fast.next.next;
+            prevNode = slow;
+            slow = slow.next;
+        }
+        if(fast!=null && fast.next!=null)
+        {
+            midNode = slow;
+            slow = slow.next;
+        }
+        ListNode secondHalf = slow;
+        prevNode.next = null;
+        secondHalf = reverse(secondHalf, null);
+        boolean result = compare(head, secondHalf);
+        secondHalf = reverse(secondHalf, null);
+        if(midNode != null)
+        {
+            prevNode.next = midNode;
+            midNode.next = secondHalf;
+        }
+        return result;
+    }
+}
